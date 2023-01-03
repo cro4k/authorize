@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package message;
+
+option go_package="./authrpc";
+
+message Profile {
+  string id = 1;
+  string nickname = 2;
+  string avatar = 3;
+  int32 gender = 4;
+  string bio = 5;
+}
+
+message AccountInfo {
+  string id = 1;
+  string username = 2;
+  string cellphone = 3;
+  string email = 4;
+  int32 certificate_status = 5;
+}

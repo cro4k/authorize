@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package message;
+
+option go_package="./authrpc";
+
+import public "message/auth.proto";
+
+message VerifyTokenRequest {
+  string cid = 1;
+  string token = 2;
+}
+
+message VerifyTokenResponse {
+  int32 status = 1;
+  string message = 2;
+  Profile profile = 3;
+}
+
+message AccountInfoRequest {
+  string cid = 1;
+  string token = 2;
+}
+
+message AccountInfoResponse {
+  AccountInfo info = 1;
+}
+
+
+service AuthService {
+  rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenResponse);
+  rpc AccountInfo(AccountInfoRequest) returns (AccountInfoResponse);
+}

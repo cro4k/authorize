@@ -1,0 +1,13 @@
+
+env: develop
+
+db:
+  driver: mysql
+  dsn: root:root@tcp(127.0.0.1:3306)/example?parseTime=true&charset=utf8&loc=Asia%2FShanghai
+
+redis:
+  host: localhost
+  port: 6379
+  name: 1
+  pass: root
+
