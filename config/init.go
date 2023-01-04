@@ -13,6 +13,7 @@ import (
 const (
 	APIAddr = "127.0.0.1:8088"
 	RPCAddr = "127.0.0.1:8089"
+	DOCAddr = "127.0.0.1:8090"
 )
 
 const (

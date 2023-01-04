@@ -1,20 +1,28 @@
 package main
 
 import (
-	"github.com/cro4k/authorize/doc/annotation"
-	"github.com/cro4k/authorize/doc/temporary"
-	"github.com/cro4k/authorize/server/api"
-	"github.com/cro4k/doc/docer"
-	"github.com/cro4k/doc/export/markdown"
-	"log"
+	"context"
+	"flag"
+	"fmt"
+	"github.com/cro4k/authorize/doc/docserver"
+	"github.com/cro4k/authorize/runner"
 )
 
+var (
+	output string
+	port   int
+)
+
+func init() {
+	flag.StringVar(&output, "o", "doc/output", "")
+	flag.IntVar(&port, "p", 8090, "")
+	flag.Parse()
+}
+
 func main() {
-	_ = api.NewServer()
-	docer.Init(annotation.Elements())
-	documents := docer.Decode(temporary.Get())
-	err := markdown.Export("doc/output", documents.Group(), true)
-	if err != nil {
-		log.Println(err)
-	}
+	srv := docserver.NewServer(output, fmt.Sprintf(":%d", port))
+	runner.Join(srv)
+	runner.Run(func(e error) {})
+	runner.WaitSignal()
+	runner.Shutdown(context.Background(), func(e error) {})
 }
