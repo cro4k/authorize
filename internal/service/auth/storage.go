@@ -44,7 +44,7 @@ func (s *storage) Get(uid, cid string) (string, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	var n *tokenNonce
-	if n = s.cache[uid]; n != nil {
+	if n = s.cache[uid]; n == nil {
 		return "", errors.New("not found")
 	}
 	for _, v := range n.nonce {

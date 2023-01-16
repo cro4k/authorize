@@ -23,7 +23,7 @@ func (s *service) GenToken(acc *model.Account, cid string) (string, error) {
 		return "", err
 	}
 	cla := &Claims{}
-	cla.ID = acc.ID
+	cla.UID = acc.ID
 	cla.CID = cid
 	cla.Username = acc.Username
 	cla.CertificateStatus = int(acc.CertificateStatus)
@@ -56,7 +56,7 @@ func (s *service) Verify(tokenStr string, cid string) (*Claims, error) {
 	if claims.CID != cid {
 		return nil, errors.New("invalid token")
 	}
-	nonce, err := s.storage.Get(claims.ID, claims.CID)
+	nonce, err := s.storage.Get(claims.UID, claims.CID)
 	if err != nil {
 		return nil, err
 	}

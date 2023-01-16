@@ -45,8 +45,10 @@ func Token(ctx *gin.Context) {
 	}
 	claims, err := service.Auth.Verify(tokenStr, ctx.GetString("cid"))
 	ctx.Set("token_error", err)
-	ctx.Set("claims", claims)
-	ctx.Set("uid", claims.ID)
+	if err == nil {
+		ctx.Set("claims", claims)
+		ctx.Set("uid", claims.UID)
+	}
 }
 
 func Auth(ctx *gin.Context) {

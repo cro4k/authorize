@@ -4,11 +4,16 @@ import (
 	"context"
 	"github.com/cro4k/authorize/config"
 	"github.com/cro4k/authorize/doc/docserver"
+	"github.com/cro4k/authorize/internal/dao"
 	_ "github.com/cro4k/authorize/logs"
 	"github.com/cro4k/authorize/runner"
 	"github.com/cro4k/authorize/server/api"
 	"github.com/cro4k/authorize/server/rpc"
 )
+
+func init() {
+	dao.Migrate()
+}
 
 //go:generate ann build -o doc/annotation
 func main() {

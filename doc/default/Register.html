@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang='zh'>
+<head>
+    <meta charset='utf-8'/>
+    <title>Docer</title>
+    <style>
+        table {
+            border-style: none none solid solid;
+            border-color: #aaa;
+            border-width: 1px;
+            margin-top: 20px;
+            border-spacing: 0;
+        }
+        table th {
+            border-style: solid solid none none;
+            border-color: #aaa;
+            border-width: 1px;
+            margin-top: 10px;
+            padding: 5px 10px 5px 10px;
+        }
+        table td {
+            border-style: solid solid none none;
+            border-color: #aaa;
+            border-width: 1px;
+            margin-top: 10px;
+            padding: 5px 10px 5px 10px;
+        }
+        blockquote {
+            display: block;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 10px;
+            margin-inline-end: 30px;
+        }
+        blockquote p {
+            border-style: none none none solid;
+            padding: 5px 10px 5px 10px;
+            border-color: #479393;
+            background-color: #47939333;
+        }
+        #content{
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id='content'></div>
+<script src='https://cdn.jsdelivr.net/npm/marked/marked.min.js'></script>
+<script>
+    var data = '## Register\n\n<p></p>### 请求地址\n> /api/auth/register\n\n### 请求方式\n> POST\n\n### 请求参数\nRegisterRequest\n\nHeader:\n\n| 名称 | 说明 |\n|-----|-----|\n\nBody:\n\n| 字段       | 必填  | 类型     | 备注  | 可选值 |\n|----------|-----|--------|-----|-----|\n| username | true   | string | | |\n| password | true   | string | | |\n| captcha_type | true   | int | | |\n| captcha_id | true   | string | | |\n| captcha_name | true   | string | | |\n| captcha_value | true   | string | | |\n\n### 请求示例\n```json\n{\n\t"username": "",\n\t"password": "",\n\t"captcha_type": 0,\n\t"captcha_id": "",\n\t"captcha_name": "",\n\t"captcha_value": ""\n}\n```\n### 响应数据\nRegisterResponse\n\n| 字段       |  类型     | 备注  | 可选值 |\n|----------|--------|-----|-----|\n| id | string | | |\n\n### 响应示例\n```json\n{\n\t"id": ""\n}\n```\n\n### 模型列表\n\n本文档由 [doc](https://github.com/cro4k/doc) 自动生成'
+    document.getElementById('content').innerHTML = marked.parse(data);
+</script>
+</body>
+</html>

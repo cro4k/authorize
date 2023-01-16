@@ -10,7 +10,13 @@ type Avatar struct {
 }
 
 func (a *Avatar) Scan(v any) error {
+	if v == nil {
+		return nil
+	}
 	b := v.([]byte)
+	if len(b) == 0 {
+		return nil
+	}
 	err := json.Unmarshal(b, a)
 	if err != nil {
 		return err

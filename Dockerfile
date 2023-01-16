@@ -2,7 +2,7 @@ FROM golang:1.19.4-alpine3.17 AS builder
 
 WORKDIR /app
 ADD . /app
-ENV GOPROXY httos://goproxy.cn,direct
+ENV GOPROXY https://goproxy.cn,direct
 RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o main main.go
 
 FROM alpine AS runner
@@ -20,9 +20,6 @@ RUN echo "https://mirrors.aliyun.com/alpine/v3.17/main/" > /etc/apk/repositories
     && echo Asia/Shanghai > /etc/timezone
 
 RUN mkdir data
-
-EXPOSE 8088
-EXPOSE 8089
 
 ARG configfile
 ENTRYPOINT ./main -c ${configfile}

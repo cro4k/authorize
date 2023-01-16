@@ -3,7 +3,7 @@ package auth
 import "github.com/dgrijalva/jwt-go"
 
 type Claims struct {
-	ID                            string `json:"id"`
+	UID                           string `json:"uid"`
 	CID                           string `json:"cid"`
 	Username                      string `json:"username"`
 	CertificateStatus             int    `json:"cs"`
