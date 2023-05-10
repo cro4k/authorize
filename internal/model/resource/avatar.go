@@ -13,7 +13,14 @@ func (a *Avatar) Scan(v any) error {
 	if v == nil {
 		return nil
 	}
-	b := v.([]byte)
+
+	var b []byte
+	switch v.(type) {
+	case []byte:
+		b = v.([]byte)
+	case string:
+		b = []byte(v.(string))
+	}
 	if len(b) == 0 {
 		return nil
 	}

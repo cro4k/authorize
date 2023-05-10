@@ -2,15 +2,18 @@ package controller
 
 import (
 	"errors"
+
+	"github.com/cro4k/common/crypto/hashutil"
+	"github.com/cro4k/common/randx"
+	"github.com/gin-gonic/gin"
+
 	"github.com/cro4k/authorize/internal/dao"
+	"github.com/cro4k/authorize/internal/db"
 	"github.com/cro4k/authorize/internal/model"
 	"github.com/cro4k/authorize/internal/model/resource"
 	"github.com/cro4k/authorize/internal/service"
 	"github.com/cro4k/authorize/server/api/ginx"
 	"github.com/cro4k/authorize/utils/reg"
-	"github.com/cro4k/common/crypto/hashutil"
-	"github.com/cro4k/common/randx"
-	"github.com/gin-gonic/gin"
 )
 
 type LoginRequest struct {
@@ -40,7 +43,7 @@ func Login(c *gin.Context) {
 		ctx.FailError(err)
 		return
 	}
-	acc, err := dao.Account.Find(ctx.Body.Username)
+	acc, err := dao.Account(db.DB()).Find(ctx.Body.Username)
 	if err != nil {
 		ctx.Logger().Error(err)
 		ctx.Fail(ginx.ErrIncorrectUsername)
@@ -57,7 +60,7 @@ func Login(c *gin.Context) {
 		ctx.Fail("login failed")
 		return
 	}
-	var profile, _ = dao.Account.Profile(acc.ID)
+	var profile, _ = dao.Account(db.DB()).Profile(acc.ID)
 	ctx.OK(LoginResponse{
 		ID:          acc.ID,
 		Token:       token,
@@ -147,7 +150,7 @@ func Register(c *gin.Context) {
 		Nickname: "用户_" + randx.String(6),
 	}
 
-	if err := dao.Account.Register(acc, profile); err != nil {
+	if err := dao.Account(db.DB()).Register(acc, profile); err != nil {
 		ctx.Logger().Error(err)
 		ctx.Fail()
 		return

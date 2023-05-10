@@ -15,7 +15,7 @@ func list(v interface{}, query *gorm.DB, page, size int, order ...interface{}) (
 	return total, err
 }
 
-func id(v interface{}, id interface{}, selects ...interface{}) error {
+func id(db *gorm.DB, v interface{}, id interface{}, selects ...interface{}) error {
 	query := db.Where("id = ?", id)
 	for _, sel := range selects {
 		query = query.Select(sel)

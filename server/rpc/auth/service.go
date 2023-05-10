@@ -2,7 +2,9 @@ package auth
 
 import (
 	"context"
+
 	"github.com/cro4k/authorize/internal/dao"
+	"github.com/cro4k/authorize/internal/db"
 	"github.com/cro4k/authorize/internal/service"
 	"github.com/cro4k/authorize/rpc/authrpc"
 )
@@ -18,7 +20,7 @@ func (s *authService) VerifyToken(ctx context.Context, req *authrpc.VerifyTokenR
 	if err != nil {
 		return nil, err
 	}
-	profile, err := dao.Account.Profile(claims.UID)
+	profile, err := dao.Account(db.DB()).Profile(claims.UID)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +41,7 @@ func (s *authService) AccountInfo(ctx context.Context, req *authrpc.AccountInfoR
 	if err != nil {
 		return nil, err
 	}
-	acc, err := dao.Account.GetByID(claims.Id)
+	acc, err := dao.Account(db.DB()).GetByID(claims.Id)
 	if err != nil {
 		return nil, err
 	}

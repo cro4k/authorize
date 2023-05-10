@@ -2,10 +2,10 @@ package logs
 
 import (
 	"fmt"
-	"github.com/cro4k/authorize/config"
+	"strings"
+
 	"github.com/cro4k/common/timeutil"
 	"github.com/sirupsen/logrus"
-	"strings"
 )
 
 type textFormatter struct{}
@@ -29,14 +29,14 @@ func (f *textFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 
 func init() {
 	logrus.SetFormatter(&textFormatter{})
-	switch config.C().Env {
-	case config.Debug:
-		logrus.SetLevel(logrus.DebugLevel)
-		logrus.SetReportCaller(true)
-	case config.Develop:
-		logrus.SetLevel(logrus.TraceLevel)
-		logrus.SetReportCaller(true)
-	case config.Produce:
-		logrus.SetLevel(logrus.ErrorLevel)
-	}
+	//switch config.C().Env {
+	//case config.Debug:
+	//	logrus.SetLevel(logrus.DebugLevel)
+	//	logrus.SetReportCaller(true)
+	//case config.Develop:
+	//	logrus.SetLevel(logrus.TraceLevel)
+	//	logrus.SetReportCaller(true)
+	//case config.Produce:
+	//	logrus.SetLevel(logrus.ErrorLevel)
+	//}
 }

@@ -1,10 +1,11 @@
 package dao
 
 import (
-	"github.com/cro4k/authorize/internal/model"
 	"github.com/go-gormigrate/gormigrate/v2"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
+
+	"github.com/cro4k/authorize/internal/model"
 )
 
 var migrations = []*gormigrate.Migration{
@@ -25,7 +26,7 @@ var migrations = []*gormigrate.Migration{
 	//},
 }
 
-func Migrate() {
+func Migrate(db *gorm.DB) {
 	m := gormigrate.New(db, gormigrate.DefaultOptions, migrations)
 	m.InitSchema(func(db *gorm.DB) error {
 		return db.AutoMigrate(

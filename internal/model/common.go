@@ -5,11 +5,11 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
-	"github.com/cro4k/authorize/config"
+	"time"
+
 	"github.com/cro4k/common/crypto/aesutil"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
-	"time"
 )
 
 type UID struct {
@@ -28,8 +28,8 @@ type IID struct {
 }
 
 type Time struct {
-	CreatedAt time.Time `gorm:"type:timestamp(0);NOT NULL;DEFAULT:now();index"`
-	UpdatedAt time.Time `gorm:"type:timestamp(0);NOT NULL;DEFAULT:now()"`
+	CreatedAt time.Time `gorm:"type:DATETIME;index"`
+	UpdatedAt time.Time `gorm:"type:DATETIME"`
 }
 
 type UIDModel struct {
@@ -44,6 +44,9 @@ type IIDModel struct {
 
 type CipherText string
 
+// TODO replace with secure key
+var cipherKey = []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}
+
 func (a *CipherText) Scan(v any) error {
 	text, ok := v.([]byte)
 	if !ok {
@@ -56,7 +59,7 @@ func (a *CipherText) Scan(v any) error {
 	if err != nil {
 		return err
 	}
-	key := config.C().KEY()
+	key := cipherKey
 	res, err := aesutil.Decrypt(data, key, key)
 	if err != nil {
 		return err
@@ -69,7 +72,7 @@ func (a CipherText) Value() (driver.Value, error) {
 	if len(a) == 0 {
 		return "", nil
 	}
-	key := config.C().KEY()
+	key := cipherKey
 	data, err := aesutil.Encrypt([]byte(a), key, key)
 	if err != nil {
 		return nil, err
