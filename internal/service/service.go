@@ -1,15 +1,27 @@
 package service
 
 import (
+	"github.com/cro4k/authorize/internal/db"
 	"github.com/cro4k/authorize/internal/service/auth"
+	"github.com/cro4k/authorize/internal/service/oauth2"
+	"github.com/cro4k/authorize/internal/service/perm"
 	//"github.com/cro4k/authorize/internal/service/oauth2"
 )
 
 var (
-	Auth = auth.NewService()
-	//OAuth2 = oauth2.NewService()
+	Auth   = auth.NewService()
+	OAuth2 = oauth2.NewService()
+	Casbin *perm.CasbinService
 	//FS     *minio.Client
 )
+
+func Init() {
+	var err error
+	Casbin, err = perm.NewCasbinService(db.DB())
+	if err != nil {
+		panic(err)
+	}
+}
 
 //func init() {
 //	var err error

@@ -6,6 +6,7 @@ import (
 	"github.com/cro4k/authorize/config"
 	"github.com/cro4k/authorize/internal/dao"
 	"github.com/cro4k/authorize/internal/db"
+	sv "github.com/cro4k/authorize/internal/service"
 	_ "github.com/cro4k/authorize/logs"
 	"github.com/cro4k/authorize/server/api"
 	"github.com/cro4k/authorize/server/rpc"
@@ -18,6 +19,7 @@ func main() {
 
 	db.Setup(c.DB)
 	dao.Migrate(db.DB())
+	sv.Init()
 
 	group := service.Group(
 		api.NewServer(c.API),

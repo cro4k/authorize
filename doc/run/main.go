@@ -1,11 +1,12 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
+	"os"
+	"os/signal"
+
 	"github.com/cro4k/authorize/doc/docserver"
-	"github.com/cro4k/authorize/runner"
 )
 
 var (
@@ -21,8 +22,9 @@ func init() {
 
 func main() {
 	srv := docserver.NewServer(output, fmt.Sprintf(":%d", port))
-	runner.Join(srv)
-	runner.Run(func(e error) {})
-	runner.WaitSignal()
-	runner.Shutdown(context.Background(), func(e error) {})
+	defer srv.Shutdown()
+	go srv.Run()
+	ch := make(chan os.Signal)
+	signal.Notify(ch, os.Interrupt, os.Kill)
+	<-ch
 }

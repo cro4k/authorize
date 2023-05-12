@@ -58,7 +58,7 @@ func (s *GINServer) Run() error {
 
 func (s *GINServer) run(c chan error) {
 	defer close(c)
-	logrus.Infof("api server starting on %s", s.svr.Addr)
+	logrus.Infof("%s starting on %s", s.config.Name, s.svr.Addr)
 	c <- s.svr.ListenAndServe()
 }
 

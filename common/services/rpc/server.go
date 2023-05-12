@@ -56,7 +56,7 @@ func (s *GRPCServer) run(c chan error) {
 		c <- err
 	}
 
-	logrus.Infof("rpc server starting on %s", s.config.Addr)
+	logrus.Infof("%s starting on %s", s.config.Name, s.config.Addr)
 	c <- s.server.Serve(s.listener)
 }
 

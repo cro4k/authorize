@@ -33,6 +33,7 @@ func Migrate(db *gorm.DB) {
 			&model.Account{},
 			&model.AccountProfile{},
 			&model.AccountLog{},
+			&model.Application{},
 		)
 	})
 	if err := m.Migrate(); err != nil {

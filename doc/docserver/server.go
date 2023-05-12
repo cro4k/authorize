@@ -2,24 +2,25 @@ package docserver
 
 import (
 	"context"
-	"github.com/cro4k/authorize/doc/docrouter"
-	"github.com/cro4k/authorize/runner"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+
+	"github.com/cro4k/authorize/doc/docrouter"
 )
 
-type server struct {
+type DocServer struct {
 	srv    *http.Server
 	output string
 	addr   string
 }
 
-func NewServer(output, addr string) runner.Runner {
-	s := &server{output: output, addr: addr}
+func NewServer(output, addr string) *DocServer {
+	s := &DocServer{output: output, addr: addr}
 	return s
 }
 
-func (s *server) Run() error {
+func (s *DocServer) Run() error {
 	e := gin.Default()
 	if err := docrouter.Doc(s.output, e); err != nil {
 		return err
@@ -31,6 +32,6 @@ func (s *server) Run() error {
 	return s.srv.ListenAndServe()
 }
 
-func (s *server) Shutdown(ctx context.Context) error {
-	return s.srv.Shutdown(ctx)
+func (s *DocServer) Shutdown() error {
+	return s.srv.Shutdown(context.Background())
 }

@@ -1,7 +1,6 @@
 package service
 
 type Config struct {
-	Name string `json:"name"      yaml:"name"      toml:"name"`
 	//Telemetry TelemetryConfig `json:"telemetry" yaml:"telemetry" toml:"telemetry"`
 	//Registry  registry.Config `json:"registry"  yaml:"registry"  toml:"registry"`
 }
