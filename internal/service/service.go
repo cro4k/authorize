@@ -11,13 +11,13 @@ import (
 var (
 	Auth   = auth.NewService()
 	OAuth2 = oauth2.NewService()
-	Casbin *perm.CasbinService
+	Casbin *perm.Service
 	//FS     *minio.Client
 )
 
 func Init() {
 	var err error
-	Casbin, err = perm.NewCasbinService(db.DB())
+	Casbin, err = perm.NewService(db.DB())
 	if err != nil {
 		panic(err)
 	}

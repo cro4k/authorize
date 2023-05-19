@@ -2,13 +2,15 @@ package router
 
 import (
 	"fmt"
-	"github.com/cro4k/authorize/internal/service"
-	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
-	"github.com/sirupsen/logrus"
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
+	"github.com/sirupsen/logrus"
+
+	"github.com/cro4k/authorize/internal/service"
 )
 
 func UUID(c *gin.Context) {
@@ -57,4 +59,8 @@ func Auth(ctx *gin.Context) {
 	if err != nil || id == "" {
 		ctx.AbortWithStatus(http.StatusForbidden)
 	}
+}
+
+func Perm(ctx *gin.Context) {
+
 }
