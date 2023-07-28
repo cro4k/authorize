@@ -3,7 +3,6 @@ module github.com/cro4k/authorize/clients
 go 1.19
 
 require (
-	github.com/cro4k/authorize v0.0.0-20230512092417-a04975b995c5
 	google.golang.org/grpc v1.57.0
 )
 

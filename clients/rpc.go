@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/cro4k/authorize/rpc/authrpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
+
+	"github.com/cro4k/authorize/clients/authrpc"
 )
 
 type rpcClient struct {
