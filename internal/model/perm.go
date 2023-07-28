@@ -16,9 +16,11 @@ type PermResource struct {
 
 type PermApi struct {
 	IIDModel
+	Path        string `gorm:"uniqueIndex"`
 	ResourceID  uint64
 	Description string `gorm:"type:varchar(512);not null;default:''"`
 	Action      string `gorm:"type:varchar(255);not null;default:''"`
+	Resource    *PermResource
 }
 
 type PermAccountRole struct {

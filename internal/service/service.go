@@ -12,6 +12,7 @@ var (
 	Auth   = auth.NewService()
 	OAuth2 = oauth2.NewService()
 	Casbin *perm.Service
+
 	//FS     *minio.Client
 )
 

@@ -1,13 +1,18 @@
-
-env: develop
-
 db:
   driver: mysql
-  dsn: root:root@tcp(127.0.0.1:3306)/example?parseTime=true&charset=utf8&loc=Asia%2FShanghai
+  dsn: root:root@tcp(127.0.0.1:3306)/authorize?parseTime=true&charset=utf8&loc=Asia%2FShanghai
+#  driver: sqlite
+#  dsn: data/data.db
 
-redis:
-  host: localhost
-  port: 6379
-  name: 1
-  pass: root
+api:
+  name: authorize-api
+  addr: 0.0.0.0:8088
+  timeout: 5000
+  telemetry:
+    enable: true
 
+rpc:
+  name: authorize-rpc
+  addr: 0.0.0.0:8089
+  telemetry:
+    enable: true
