@@ -61,6 +61,10 @@ func Auth(ctx *gin.Context) {
 	}
 }
 
+func ManageAuth(ctx *gin.Context) {
+	Auth(ctx)
+}
+
 func Perm(ctx *gin.Context) {
 
 }

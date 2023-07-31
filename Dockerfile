@@ -11,6 +11,8 @@ WORKDIR /app
 
 # 复制编译阶段编译出来的运行文件到目标目录
 COPY --from=builder /app/main .
+COPY --from=builder /app/static .
+
 # 将时区设置为东八区
 RUN echo "https://mirrors.aliyun.com/alpine/v3.17/main/" > /etc/apk/repositories \
     && echo "https://mirrors.aliyun.com/alpine/v3.17/community/" >> /etc/apk/repositories \

@@ -11,7 +11,7 @@ import (
 func NewServer(c api.Config) *api.GINServer {
 	srv := api.NewGINServer(c)
 	srv.RegisterRouter(func(e *gin.Engine) {
-		router.Router(e)
+		router.Router(e, c.EnableStatic)
 		temporary.Set(e)
 	})
 	return srv
