@@ -1,2 +1,1 @@
-cd rpc/
-protoc --go_out=. --go-grpc_out=. message/*.proto
+protoc -I ./rpc/ --go_out=./rpc/ --go-grpc_out=./rpc/ rpc/message/*.proto

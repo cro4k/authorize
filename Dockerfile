@@ -21,6 +21,5 @@ RUN echo "https://mirrors.aliyun.com/alpine/v3.17/main/" > /etc/apk/repositories
 
 RUN mkdir data
 
-ARG configfile
-ENTRYPOINT ./main -c ${configfile}
+ENTRYPOINT ./main -config etc/config.yml
 
