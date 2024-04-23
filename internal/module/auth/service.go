@@ -2,21 +2,22 @@ package auth
 
 import (
 	"context"
-	"encoding/binary"
 	"errors"
+	"strconv"
 
 	"github.com/go-chocolate/chocolate/pkg/kv"
-	"github.com/google/uuid"
+
+	"github.com/cro4k/authorize/pkg/authorization"
 )
 
 type Service interface {
-	Token(ctx context.Context, id int64) (string, error)
+	Token(ctx context.Context, id int64, client string) (string, error)
 	Validate(ctx context.Context, token string) (int64, error)
 }
 
 type UnimplementedService struct{}
 
-func (s *UnimplementedService) Token(ctx context.Context, id int64) (string, error) {
+func (s *UnimplementedService) Token(ctx context.Context, id int64, client string) (string, error) {
 	return "", errors.New("unimplemented")
 }
 func (s *UnimplementedService) Validate(ctx context.Context, token string) (int64, error) {
@@ -24,31 +25,22 @@ func (s *UnimplementedService) Validate(ctx context.Context, token string) (int6
 }
 
 func NewService(kv kv.Storage) Service {
-	return &service{kv: kv}
+	return &service{auth: authorization.NewAuthorization(authorization.WithSecretStorage(kv))}
 }
 
 type service struct {
-	kv kv.Storage
+	auth *authorization.Authorization
 }
 
-func (s *service) Token(ctx context.Context, id int64) (string, error) {
-	token := uuid.New().String()
-	var b = make([]byte, 8)
-	binary.BigEndian.PutUint64(b, uint64(id))
-	if err := s.kv.Set(ctx, token, b); err != nil {
-		return "", err
-	}
-	return token, nil
+func (s *service) Token(ctx context.Context, id int64, client string) (string, error) {
+	return s.auth.Authorize(ctx, strconv.FormatInt(id, 10), client)
 }
 
-func (s *service) Validate(ctx context.Context, token string) (int64, error) {
-	val, err := s.kv.Get(ctx, token)
+func (s *service) Validate(ctx context.Context, tokenString string) (int64, error) {
+	token, err := s.auth.Validate(ctx, tokenString)
 	if err != nil {
 		return 0, err
 	}
-	if len(val) != 8 {
-		return 0, errors.New("invalid token")
-	}
-	return int64(binary.BigEndian.Uint64(val)), err
-
+	id, _ := strconv.ParseInt(token.UserID, 10, 64)
+	return id, nil
 }

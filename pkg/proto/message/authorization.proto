@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package message;
+
+option go_package="pkg/proto/authorization";
+
+message ValidateRequest {
+  string token = 1;
+  string ip = 2;
+  string ua = 3;
+}
+
+message ValidateResponse {
+  int64 id = 1;
+  string username = 2;
+  string nickname = 3;
+  string avatar = 4;
+  string bio = 5;
+}
+
+service Authorization {
+  rpc Validate(ValidateRequest) returns (ValidateResponse);
+}

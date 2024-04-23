@@ -2,7 +2,12 @@ package app
 
 import (
 	"context"
+
+	grpc "google.golang.org/grpc"
+
 	"github.com/cro4k/authorize/internal/dao/migrate"
+	"github.com/cro4k/authorize/internal/entrance/rpc"
+	"github.com/cro4k/authorize/pkg/proto/authorization"
 
 	"github.com/go-chocolate/chocolate/pkg/chocolate/chocohttp"
 	"github.com/go-chocolate/chocolate/pkg/chocolate/chocorpc"
@@ -36,6 +41,10 @@ func Run() {
 
 	rpcsrv := chocorpc.NewServer(cfg.RPC)
 	logrus.Infof("rpc server listening on %s", cfg.RPC.Addr)
+
+	rpcsrv.Register(func(server *grpc.Server) {
+		authorization.RegisterAuthorizationServer(server, &rpc.AuthorizeServer{})
+	})
 
 	if err := migrate.Migrate(dependency.Get().DB); err != nil {
 		panic(err)

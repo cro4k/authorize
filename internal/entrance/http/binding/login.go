@@ -2,6 +2,7 @@ package binding
 
 import (
 	"context"
+
 	"github.com/go-playground/validator/v10"
 )
 
@@ -17,7 +18,8 @@ func (request *LoginRequest) Validate(ctx context.Context) error {
 }
 
 type LoginResponse struct {
-	Token string `json:"token"`
+	Token    string `json:"token"`
+	ClientID string `json:"client_id"`
 }
 
 type RegisterRequest struct {

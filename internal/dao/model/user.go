@@ -39,4 +39,6 @@ func (u *User) Rebase() {
 
 type UserColumns struct {
 	Nickname string
+	Avatar   string
+	Bio      string
 }

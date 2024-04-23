@@ -2,15 +2,17 @@ package handler
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-chocolate/chocolate/pkg/chocolate/errorx"
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+
 	"github.com/cro4k/authorize/internal/dao/model"
 	"github.com/cro4k/authorize/internal/dao/operator"
 	"github.com/cro4k/authorize/internal/entrance/http/binding"
 	"github.com/cro4k/authorize/internal/module"
-	"github.com/google/uuid"
-	"gorm.io/gorm"
-	"net/http"
 
 	"github.com/go-chocolate/chocolate/pkg/chocolate/chocohttp/chocomux"
 )
@@ -25,6 +27,11 @@ func login(ctx chocomux.Context, ginCtx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, errorx.Code(400, err.Error()))
 		return
 	}
+	clientID := ginCtx.GetHeader("x-client-id")
+	if clientID == "" {
+		clientID = uuid.New().String()
+	}
+
 	user := &model.User{Username: request.Username}
 	op := operator.NewUserOperator(ctx, user)
 	if err := op.Load(ctx); err != nil {
@@ -35,12 +42,12 @@ func login(ctx chocomux.Context, ginCtx *gin.Context) {
 		ctx.OkJSON(errorx.Code(0, "invalid username or password"))
 		return
 	}
-	token, err := module.GetAuthService().Token(ctx, user.ID)
+	token, err := module.GetAuthService().Token(ctx, user.ID, clientID)
 	if err != nil {
 		ctx.Error(err)
 		return
 	}
-	ctx.OkJSON(&binding.LoginResponse{Token: token})
+	ctx.OkJSON(&binding.LoginResponse{Token: token, ClientID: clientID})
 }
 
 func Register(ctx *gin.Context) {
