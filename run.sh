@@ -1,0 +1,1 @@
+go run -ldflags "-X github.com/cro4k/authorize/version.BuildTime=$(date '+%Y-%m-%d_%H:%M:%S') -X github.com/cro4k/authorize/version.BuildHash=$(git rev-parse HEAD)" .
